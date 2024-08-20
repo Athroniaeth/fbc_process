@@ -1,0 +1,33 @@
+# Max line length of code
+line-length = 150
+
+# Assume Python 3.12
+target-version = "py312"
+
+# Target only the src, tests files
+include = [
+    "src/**/*.py",
+]
+
+# Select some errors
+lint.select = [
+    'E',    # Syntax errors
+    'F',    # Pyflakes
+    'W',    # pycodestyle
+    'A',    # flake8-builtins
+    'PLC',  # Pylint
+    'PLE',  # Pylint
+    'PLW',  # Pylint
+    'I',    # isort
+    'D101',    # Missing docstring in public class
+    'D102',    # Missing docstring in public method
+]
+
+# Ignore some errors
+lint.ignore = [
+    'D100',  # Missing docstring in public module
+    'D103',  # Missing docstring in public module
+    'D104',  # Missing docstring in public module
+    'D212',  # Multi-line docstring summary should start at the first line
+    'E501',  # Line too long (allow format but no warning check)
+]
