@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="Black">
-    <option name="sdkName" value="Python 3.12 (bresse)" />
+    <option name="sdkName" value="Poetry (fbc_process)" />
   </component>
-<<<<<<< HEAD
-  <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.12 (bresse)" project-jdk-type="Python SDK" />
-=======
-  <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.12" project-jdk-type="Python SDK" />
->>>>>>> 15fa8af (Init tests folders, add pytest)
+  <component name="ProjectRootManager" version="2" project-jdk-name="Poetry (fbc_process)" project-jdk-type="Python SDK" />
 </project>
