@@ -3,20 +3,21 @@ import os
 
 import typer
 
+from fbc_process.app import app
+
 cli = typer.Typer()
 
 
 @cli.command()
 def run(
-        host: str = typer.Option("127.0.0.1", envvar="HOST", help="Adress to listen on."),
-        port: int = typer.Option(7860, envvar="PORT", help="Port to listen on."),
-        ssl_keyfile: str = typer.Option(None, envvar="SSL_KEYFILE", help="File containing the SSL key."),
-        ssl_certfile: str = typer.Option(None, envvar="SSL_CERTFILE", help="File containing the SSL certificate."),
-        mistral_token: str = typer.Option(None, envvar="MISTRAL_API_KEY", help="Token to access the Mistral API."),
-        model_id: str = typer.Option("mistral-large-latest", help="Model Mistral to use."),
-        max_file_size: str = typer.Option("10mb", envvar="MAX_FILE_SIZE", help="Size of the maximum file to download."),
-        enable_monitoring: bool = typer.Option(True, envvar="ENABLE_MONITORING",
-                                               help="Activate the monitoring of the application."),
+    host: str = typer.Option("127.0.0.1", envvar="HOST", help="Adress to listen on."),
+    port: int = typer.Option(7860, envvar="PORT", help="Port to listen on."),
+    ssl_keyfile: str = typer.Option(None, envvar="SSL_KEYFILE", help="File containing the SSL key."),
+    ssl_certfile: str = typer.Option(None, envvar="SSL_CERTFILE", help="File containing the SSL certificate."),
+    mistral_token: str = typer.Option(None, envvar="MISTRAL_API_KEY", help="Token to access the Mistral API."),
+    model_id: str = typer.Option("mistral-large-latest", help="Model Mistral to use."),
+    max_file_size: str = typer.Option("10mb", envvar="MAX_FILE_SIZE", help="Size of the maximum file to download."),
+    enable_monitoring: bool = typer.Option(True, envvar="ENABLE_MONITORING", help="Activate the monitoring of the application."),
 ):
     """
     Start the Gradio server to serve the model.
