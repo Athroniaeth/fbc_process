@@ -28,6 +28,7 @@ def run(
         ssl_keyfile (str): The SSL key file.
         ssl_certfile (str): The SSL certificate file.
         model_id (str): The HuggingFace model LLM identifier.
+        mistral_token (str): The Mistral API token.
         max_file_size (str): The maximum file size to download.
         enable_monitoring (bool): Enable the monitoring of the application.
     """
@@ -46,11 +47,11 @@ def run(
     logging.info(f"{host=}, {port=}, {ssl=}")
 
     app(
-        model_id=model_id,
         host=host,
         port=port,
         ssl_keyfile=ssl_keyfile,
         ssl_certfile=ssl_certfile,
+        model_id=model_id,
         mistral_token=mistral_token,
         max_file_size=max_file_size,
         enable_monitoring=enable_monitoring,

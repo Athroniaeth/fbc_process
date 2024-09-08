@@ -1,5 +1,6 @@
+import functools
 import logging
-from typing import Tuple
+from typing import Tuple, Optional
 
 import gradio as gr
 import pandas
@@ -9,7 +10,11 @@ import typer
 from fbc_process.process import process_df
 
 
-def gradio_process(list_path: list) -> Tuple[pandas.DataFrame, int, int]:
+def _gradio_process(
+        list_path: list,
+        model_id: str = "mistral-large-latest",
+        api_key: Optional[str] = None,
+) -> Tuple[pandas.DataFrame, int, int]:
     """
     Pipeline Gradio for process Data and return metadata
 
@@ -25,7 +30,8 @@ def gradio_process(list_path: list) -> Tuple[pandas.DataFrame, int, int]:
 
     for path in list_path:
         df = pandas.read_excel(path)
-        df_result, input_token, output_token = process_df(df)
+        output = process_df(df, model_id=model_id, api_key=api_key)
+        df_result, input_token, output_token = output
 
         df_final = pd.concat([df_final, df_result], ignore_index=True)
         total_input_token += input_token
@@ -40,8 +46,8 @@ def app(
     port: int = typer.Option(7860, envvar="PORT", help="Port to listen on."),
     ssl_keyfile: str = typer.Option(None, envvar="SSL_KEYFILE", help="File containing the SSL key."),
     ssl_certfile: str = typer.Option(None, envvar="SSL_CERTFILE", help="File containing the SSL certificate."),
-    mistral_token: str = typer.Option(None, envvar="MISTRAL_API_KEY", help="Token to access the Mistral API."),
     model_id: str = typer.Option("mistral-large-latest", help="Model Mistral to use."),
+    mistral_token: str = typer.Option(None, envvar="MISTRAL_API_KEY", help="Token to access the Mistral API."),
     max_file_size: str = typer.Option("10mb", envvar="MAX_FILE_SIZE", help="Size of the maximum file to download."),
     enable_monitoring: bool = typer.Option(True, envvar="ENABLE_MONITORING", help="Activate the monitoring of the application."),
 ):
@@ -60,6 +66,11 @@ def app(
         enable_monitoring (bool): Activate the monitoring of the application.
     """
     logging.debug("Starting the Gradio application")
+    gradio_process = functools.partial(
+        _gradio_process,
+        model_id=model_id,
+        api_key=mistral_token,
+    )
 
     with gr.Blocks() as application:
         file_input = gr.File(
@@ -74,11 +85,7 @@ def app(
         info_input_token = gr.Textbox("0", label="Input token")
         info_output_token = gr.Textbox("0", label="Output token")
 
-        button.click(
-            fn=gradio_process,
-            inputs=file_input,
-            outputs=[dataframe, info_input_token, info_output_token]
-        )
+        button.click(fn=gradio_process, inputs=file_input, outputs=[dataframe, info_input_token, info_output_token])
 
     application.launch(
         ssl_verify=False,

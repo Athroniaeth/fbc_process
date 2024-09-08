@@ -268,19 +268,22 @@ def skip_rows(df: pandas.DataFrame, skip_rows: int = 0) -> pandas.DataFrame:
 def process_df(
     dataframe: pandas.DataFrame,
     model_id: str = "mistral-large-latest",
+    api_key: Optional[str] = None,
 ) -> Tuple[pandas.DataFrame, int, int]:
     """
     Preprocess Dataframe and find the column a
     Args:
-        dataframe:
-        model_id:
+        dataframe (pandas.DataFrame): the dataframe to process
+        model_id (str): the model to use to use output parser
+        api_key (Optional[str]): the api key to use the model
 
     Returns:
-
+        Tuple[pandas.DataFrame, int, int]: the dataframe with good format, number of input and output token
     """
     # Load the model
     llm_model = ChatMistralAI(
         model=model_id,
+        mistral_api_key=api_key,
         temperature=0.3,
         max_retries=2,
     )
