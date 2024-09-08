@@ -8,7 +8,7 @@ from dotenv import load_dotenv
 path = Path(__file__).parents[1].absolute()
 sys.path.append(f"{path}")
 
-from src.cli import cli  # noqa: E402
+from cli import cli  # noqa: E402
 
 
 def main():
