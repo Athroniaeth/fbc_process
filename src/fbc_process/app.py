@@ -60,10 +60,10 @@ def _gradio_process(
         total_output_token += output_token
 
     calcul = estimate_price(total_input_token, total_output_token)
-    logging.info(f"Estimated price: {calcul:.8f} €")
+    gr.Info(f"Estimated price: {calcul:.8f} €", duration=20)
 
-    calcul_nbr_request = (1 / calcul) / length
-    logging.info(f"Number request for 1€ (by file): {calcul_nbr_request:.2f}")
+    calcul_nbr_request = (1 / calcul) * length
+    gr.Info(f"Number request for 1€ (by file): {calcul_nbr_request:.2f}", duration=20)
 
     return df_final, total_input_token, total_output_token
 
@@ -113,12 +113,15 @@ def app(
                         ".xlsx",
                     ],
                 )
-                button = gr.Button()
+
                 info_input_token = gr.Textbox("0", label="Input token")
                 info_output_token = gr.Textbox("0", label="Output token")
+                button = gr.Button()
 
             with gr.Column(scale=4):
-                dataframe = gr.DataFrame()
+                columns = ["EAN/REF INTERNE", "BRAND", "NOM", "QTY", "PRIX", "EXW", "LT", "COMMENT"]
+                df = pandas.DataFrame(columns=columns)
+                dataframe = gr.DataFrame(value=df)
 
         button.click(fn=gradio_process, inputs=file_input, outputs=[dataframe, info_input_token, info_output_token])
 
