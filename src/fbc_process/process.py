@@ -8,9 +8,32 @@ from langchain_mistralai import ChatMistralAI
 from pandas import DataFrame
 from pydantic import BaseModel
 
-from experiments.old.dataclass_ import LIST_COMMON_COLUMNS
-
 UNNAME_PREFIX = "Unnamed: "
+
+COMMON_REFERENCES = ["EAN", "BARCODE", "CODE"]
+COMMON_BRANDS = ["BRAND", "FAM"]
+COMMON_NAMES = ["PRODUCT", "NAME", "DESCRIPTION", "PRODUIT", "Reference"]
+COMMON_QUANTITIES = ["QTY", "QUANTITY", "UNITS_PER_BOX", "QTE", "AVAILABLE IN STOCK", "STOCK"]
+COMMON_PRICES = ["PRICE", "PUBLIC PRICE", "BEST OFFER"]
+COMMON_LANGS = ["LANGUAGE", "LANG"]
+COMMON_LT = ["LEAD TIME", "LT"]
+COMMON_COMMENTS = ["COMMENT", "NOTES"]
+
+DICT_COMMON_COLUMNS = {
+    # Very well detected (threeshold 100)
+    "lt": COMMON_LT,
+    "reference": COMMON_REFERENCES,
+    "quantity": COMMON_QUANTITIES,
+    # Well detected (threeshold 60)
+    "name": COMMON_NAMES,
+    "brand": COMMON_BRANDS,
+    "lang": COMMON_LANGS,
+    "comment": COMMON_COMMENTS,
+    # Have some errors, wait all passed before search
+    "price": COMMON_PRICES,
+}
+
+LIST_COMMON_COLUMNS = [column for key, values in DICT_COMMON_COLUMNS.items() for column in values]
 
 
 def get_skip_row(dataframe: pandas.DataFrame) -> int:
