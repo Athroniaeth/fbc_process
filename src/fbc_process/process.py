@@ -227,7 +227,7 @@ Here's the Dataframe:
 Here is the json corresponding to the pydantic class with the Dataframe you provided
 {{helper_output_parser}}"""
 
-    dataframe = dataframe.head(5)
+    dataframe = dataframe.head(8)
     print(dataframe.to_markdown())
 
     prompt = PromptTemplate(
@@ -307,7 +307,7 @@ def process_df(
     llm_model = ChatMistralAI(
         model=model_id,
         mistral_api_key=api_key,
-        temperature=0.3,
+        temperature=0.,
         max_retries=2,
     )
 
